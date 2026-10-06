@@ -70,9 +70,10 @@ something each project reimplements.
 | 2x thumbstick (10K, with push button) | 4 analog axes, 2 buttons |
 | MCP23017 | I2C expander for 8 buttons, 2 stick buttons and 2 slide switches |
 | 5 V / 2 A charge and boost module | Battery charging, load sharing and the power button |
-| 103450 2000 mAh Li-ion | ~6.5 hours of use on the nRF24 link |
+| 2x 103450 2000 mAh Li-ion, in parallel | 4000 mAh, ~13 hours on the nRF24 link |
 
-Full pinout, wiring and power notes: [`docs/HARDWARE.md`](docs/HARDWARE.md).
+Build instructions, every connection and the pre-flight checks: [`docs/WIRING.md`](docs/WIRING.md).
+Pin choices and the reasoning behind them: [`docs/HARDWARE.md`](docs/HARDWARE.md).
 
 ## Repository layout
 
