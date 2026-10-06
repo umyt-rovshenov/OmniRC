@@ -1,6 +1,6 @@
-#include "controllar/SequenceTracker.h"
+#include "omnirc/SequenceTracker.h"
 
-namespace controllar {
+namespace omnirc {
 
 void SequenceTracker::reset() {
     m_windowReceived = 0;
@@ -57,4 +57,4 @@ void SequenceTracker::decayWindow() {
     m_windowLost = static_cast<uint16_t>(m_windowLost / 2u);
 }
 
-}  // namespace controllar
+}  // namespace omnirc

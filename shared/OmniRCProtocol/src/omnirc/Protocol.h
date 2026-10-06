@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/// Controllar wire protocol.
+/// OmniRC wire protocol.
 ///
 /// Both frame types share one layout, which keeps the encoder, the decoder and
 /// the receiver side parser small:
@@ -25,7 +25,7 @@
 /// That removes struct padding, alignment and endianness from the list of
 /// things that can silently differ between an ESP32 transmitter and an AVR
 /// receiver.
-namespace controllar {
+namespace omnirc {
 
 constexpr uint8_t kProtocolVersion = 1;
 
@@ -117,4 +117,4 @@ uint8_t encodeTelemetry(const TelemetryFrame& frame, uint8_t* out, uint8_t capac
 /// Parses a telemetry frame. `out` is only modified when the result is `Ok`.
 DecodeError decodeTelemetry(const uint8_t* data, uint8_t length, TelemetryFrame& out);
 
-}  // namespace controllar
+}  // namespace omnirc

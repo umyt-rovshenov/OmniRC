@@ -1,8 +1,8 @@
-#include "controllar/Protocol.h"
+#include "omnirc/Protocol.h"
 
-#include "controllar/Crc16.h"
+#include "omnirc/Crc16.h"
 
-namespace controllar {
+namespace omnirc {
 namespace {
 
 /// Both frame types share a layout, so encoding and decoding differ only by
@@ -135,4 +135,4 @@ DecodeError decodeTelemetry(const uint8_t* data, uint8_t length, TelemetryFrame&
     return DecodeError::Ok;
 }
 
-}  // namespace controllar
+}  // namespace omnirc

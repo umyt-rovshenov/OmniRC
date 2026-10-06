@@ -18,7 +18,7 @@ building; [`HARDWARE.md`](HARDWARE.md) explains *why* the pins were chosen this 
 | 6 | PS2-style thumbstick, 10K, with push button | 2 |
 | 7 | 6x6x5 mm tactile switch | 8 |
 | 8 | SS12D00G3 slide switch (1P2T) | 2 |
-| 9 | Power switch rated 2 A or more | 1 |
+| 9 | KCD11 rocker switch, 15x10 mm, 6 A | 1 |
 | 10 | 3.7 V charge and boost module, 5 V at 2 A | 1 |
 | 11 | 103450 Li-ion cell, 2000 mAh | 2 |
 | 12 | 2.4 GHz IPEX antenna, 3 dBi | 1 |
@@ -26,8 +26,6 @@ building; [`HARDWARE.md`](HARDWARE.md) explains *why* the pins were chosen this 
 | 14 | 100 k resistor | 2 |
 | 15 | 100 nF ceramic capacitor | 2 |
 | 16 | 10 uF capacitor | 1 |
-| 17 | SMA panel mount connector | 1 |
-| 18 | USB-C panel extension cable | 1 |
 
 ## Module pinouts
 
@@ -225,6 +223,10 @@ transmits while the screen redraws. An SS12D00G3 is rated for about 0.5 A and wi
 degrade in this position; keep those two for the user-facing switches, where they only carry
 microamps into the expander.
 
+A KCD11 rocker is a good fit: two positions, generous contacts and a 6 A rating. A three
+position toggle also works, wired with its centre pin to the module's `+` and only one of its
+end pins to the 5 V rail, so one direction is on and the other two positions are off.
+
 ## Pre-flight checks
 
 ### 1. Set the output to 5.0 V before connecting anything
@@ -248,11 +250,14 @@ If the ESP32 module is a WROOM-1**U**, it has no on-board antenna and the IPEX c
 only one. Transmitting without an antenna attached can damage the radio. Fit both antennas, the
 IPEX one on the ESP32 and the SMA one on the nRF24, before powering up.
 
-### 3. MCP23017 RESET must be high
+### 3. Wire MCP23017 RESET to 3.3 V
 
-`RESET` is active low. If the module has no pull-up on it, the chip sits in reset and never
-answers on the bus — which looks exactly like a wiring fault and wastes an evening. Measure
-continuity between `RESET` and `VCC`; if there is none, wire it to 3.3 V.
+`RESET` is active low. If the module carries no pull-up, the chip sits in reset and never
+answers on the bus, which looks exactly like a wiring fault and costs an evening to find.
+
+Do not bother measuring for a pull-up: a continuity test cannot see one, since a 10 k resistor
+does not read as a short. Just run a jumper from `RESET` to 3.3 V. It is harmless if a pull-up
+is already present and it removes the question entirely.
 
 ### 4. I2C pull-ups
 
@@ -265,6 +270,20 @@ and marginal at 400 kHz.
 With the HID port in use, USB 5 V and the power module's output are both on the 5 V rail. Most
 boards have a diode in the USB path; check for a diode drop between the USB connector's VBUS and
 the `5V` pin. If there is none, fit an SS34 in series with the module's `+` output.
+
+## Connectors on the panel
+
+No panel mount connectors or extension cables are needed. Position the boards so their own
+connectors reach the outside:
+
+| Cutout | Exposes |
+|---|---|
+| ~6.5 mm round hole | The nRF24 module's SMA connector, so the antenna screws on from outside |
+| Rectangular, at the power module | Its Type-C charging socket |
+| Rectangular, at the ESP32 board | Both of its USB-C ports, so firmware can be flashed without opening the case |
+
+A 2-pin Type-C socket carries power only and cannot be used for the HID port, which needs the
+D+ and D- data lines.
 
 ## Assembly order
 

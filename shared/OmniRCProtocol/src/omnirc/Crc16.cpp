@@ -1,6 +1,6 @@
-#include "controllar/Crc16.h"
+#include "omnirc/Crc16.h"
 
-namespace controllar {
+namespace omnirc {
 
 uint16_t crc16(const uint8_t* data, size_t length, uint16_t seed) {
     uint16_t crc = seed;
@@ -20,4 +20,4 @@ uint16_t crc16(const uint8_t* data, size_t length, uint16_t seed) {
     return crc;
 }
 
-}  // namespace controllar
+}  // namespace omnirc

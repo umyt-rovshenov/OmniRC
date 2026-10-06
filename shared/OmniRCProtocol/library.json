@@ -1,0 +1,11 @@
+{
+  "name": "OmniRCProtocol",
+  "version": "0.1.0",
+  "description": "Wire protocol shared by the OmniRC transmitter and its receivers. Portable C++11 with no platform dependencies, so it also builds for AVR.",
+  "keywords": ["rc", "radio", "protocol", "nrf24", "esp-now"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/umyt-rovshenov/OmniRC.git" },
+  "frameworks": "*",
+  "platforms": "*",
+  "build": { "srcDir": "src" }
+}

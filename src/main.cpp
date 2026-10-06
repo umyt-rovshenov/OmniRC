@@ -1,4 +1,4 @@
-/// Controllar transmitter firmware entry point.
+/// OmniRC transmitter firmware entry point.
 ///
 /// Phase 0 only brings the toolchain up: it boots, reports what the hardware
 /// looks like and proves that the shared protocol library links into the
@@ -6,9 +6,9 @@
 
 #include <Arduino.h>
 
-#include <controllar/Protocol.h>
 #include <ctl/Log.h>
 #include <ctl/Time.h>
+#include <omnirc/Protocol.h>
 
 namespace {
 
@@ -55,7 +55,7 @@ const char* resetReasonName(esp_reset_reason_t reason) {
 /// Logs the machine state that matters when diagnosing a field problem. A
 /// panic or brownout reset reason is the first thing worth knowing.
 void logBootBanner() {
-    CTL_LOGI(kTag, "Controllar transmitter %s", CTL_FIRMWARE_VERSION);
+    CTL_LOGI(kTag, "OmniRC transmitter %s", CTL_FIRMWARE_VERSION);
     CTL_LOGI(kTag, "built %s %s", __DATE__, __TIME__);
     CTL_LOGI(kTag, "reset reason: %s", resetReasonName(esp_reset_reason()));
     CTL_LOGI(kTag, "chip: %s rev %d, %d core(s) @ %lu MHz", ESP.getChipModel(),
@@ -74,9 +74,8 @@ void logBootBanner() {
                  static_cast<unsigned long>(ESP.getFreePsram() / 1024));
     }
 
-    CTL_LOGI(kTag, "protocol v%u, up to %u channels, max frame %u bytes",
-             controllar::kProtocolVersion, controllar::kMaxChannels,
-             controllar::kMaxControlFrameSize);
+    CTL_LOGI(kTag, "protocol v%u, up to %u channels, max frame %u bytes", omnirc::kProtocolVersion,
+             omnirc::kMaxChannels, omnirc::kMaxControlFrameSize);
 }
 
 ctl::time::Interval g_heartbeat(5000);

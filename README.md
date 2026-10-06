@@ -1,8 +1,8 @@
-# Controllar
+# OmniRC
 
 A profile driven, multi-protocol universal RC transmitter built around an ESP32-S3.
 
-Most hobby transmitters are welded to one radio and one vehicle. Controllar is built the other
+Most hobby transmitters are welded to one radio and one vehicle. OmniRC is built the other
 way round: the hardware is fixed, and everything about *what* it controls lives in a profile you
 can edit on the device itself. Switching from a rover to a quadruped to a USB gamepad is a menu
 selection, not a firmware rebuild.
@@ -42,7 +42,7 @@ camera.write(rx.channel(2));
 
 **One radio at a time, on purpose.** An nRF24L01+PA+LNA transmitting at +20 dBm will desensitise
 an ESP32's own 2.4 GHz receiver sitting centimetres away. Rather than pretend otherwise,
-Controllar activates exactly one transport and fully shuts down the others' stacks. A transmitter
+OmniRC activates exactly one transport and fully shuts down the others' stacks. A transmitter
 talks to one vehicle at a time anyway.
 
 **Failsafe is not optional.** Every frame carries a sequence number, and the receiver library
@@ -80,7 +80,7 @@ Pin choices and the reasoning behind them: [`docs/HARDWARE.md`](docs/HARDWARE.md
 ```
 src/                      transmitter firmware entry point
 lib/                      transmitter libraries (core, hal, input, ui, transports, web)
-shared/ControllarProtocol portable wire protocol, shared with receivers
+shared/OmniRCProtocol portable wire protocol, shared with receivers
 receiver/                 receiver library and example vehicle firmware
 test/                     host unit tests, no hardware required
 docs/                     hardware, protocol and profile documentation

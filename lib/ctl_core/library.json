@@ -1,7 +1,7 @@
 {
   "name": "ctl_core",
   "version": "0.1.0",
-  "description": "Foundation types for the Controllar firmware: error codes, a non-throwing Result, compile time filtered logging and rollover safe timing.",
+  "description": "Foundation types for the OmniRC firmware: error codes, a non-throwing Result, compile time filtered logging and rollover safe timing.",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

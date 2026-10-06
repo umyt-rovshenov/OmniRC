@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-namespace controllar {
+namespace omnirc {
 
 /// CRC-16/CCITT-FALSE: polynomial 0x1021, initial value 0xFFFF, no input or
 /// output reflection and no final XOR.
@@ -17,4 +17,4 @@ namespace controllar {
 /// on a lookup table.
 uint16_t crc16(const uint8_t* data, size_t length, uint16_t seed = 0xFFFFu);
 
-}  // namespace controllar
+}  // namespace omnirc

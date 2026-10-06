@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-namespace controllar {
+namespace omnirc {
 
 /// Turns the rolling 8-bit sequence numbers carried by every frame into a link
 /// quality figure, on whichever side is receiving.
@@ -53,4 +53,4 @@ private:
     bool m_synced = false;
 };
 
-}  // namespace controllar
+}  // namespace omnirc

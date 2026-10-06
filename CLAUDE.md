@@ -15,13 +15,13 @@ app        main, tasks, mode switching
 ui / web / profile
 input / transport
 hal        the only code that touches registers, pins or peripherals
-shared/ControllarProtocol
+shared/OmniRCProtocol
 ```
 
 A layer may call downwards. It must never call upwards, and it must never reach into another
 module's internal headers.
 
-`lib/ctl_input`, `lib/ctl_profile` and `shared/ControllarProtocol` must not include `Arduino.h`
+`lib/ctl_input`, `lib/ctl_profile` and `shared/OmniRCProtocol` must not include `Arduino.h`
 or any `esp_*` header. That restriction is what keeps them testable on the host, and it is
 checked by the fact that they compile in the `native` environment.
 
@@ -43,10 +43,11 @@ checked by the fact that they compile in the `native` environment.
 | Member variables | `m_camelCase` | `m_windowLost` |
 | Constants, `constexpr` | `kPascalCase` | `kMaxChannels` |
 | Macros | `CTL_UPPER_SNAKE` | `CTL_LOGI` |
-| Namespaces | `lowercase` | `ctl`, `controllar` |
+| Namespaces | `lowercase` | `ctl`, `omnirc` |
 
-Firmware code lives in namespace `ctl`. The shared protocol lives in namespace `controllar`,
-because receivers pull it into projects that know nothing about this firmware.
+Firmware code lives in namespace `ctl`, short for control. The shared protocol lives in
+namespace `omnirc`, because receivers pull it into projects that know nothing about this
+firmware and need a name they can recognise.
 
 ## Comments
 

@@ -1,10 +1,10 @@
-#include <controllar/Crc16.h>
-#include <controllar/Protocol.h>
-#include <controllar/SequenceTracker.h>
+#include <omnirc/Crc16.h>
+#include <omnirc/Protocol.h>
+#include <omnirc/SequenceTracker.h>
 #include <string.h>
 #include <unity.h>
 
-using namespace controllar;
+using namespace omnirc;
 
 void setUp() {}
 void tearDown() {}

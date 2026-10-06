@@ -133,7 +133,11 @@ stays live even when the transmitter is switched off.
 ## Enclosure
 
 4 mm ABS cannot be bent cleanly, so the case is a layered stack: a base plate, spacer frames and
-a front panel joined with M3 heat-set inserts.
+a front panel.
+
+Bolt the stack together with M3 screws passing through every layer into a nut on the far side,
+through 3.2 mm clearance holes. That is stronger than threading the plastic, survives being
+opened repeatedly, and needs no heat-set inserts.
 
 Antennas go in opposite corners, ideally perpendicular to one another. The single-active-radio
 rule already prevents the transmitters from fighting, but physical separation still improves
