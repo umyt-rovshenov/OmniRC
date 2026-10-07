@@ -277,11 +277,17 @@ If the ESP32 module is a WROOM-1**U**, it has no on-board antenna and the IPEX c
 only one. Transmitting without an antenna attached can damage the radio. Fit both antennas, the
 IPEX one on the ESP32 and the SMA one on the nRF24, before powering up.
 
-### 3. USB back-feed
+### 3. Board header reference
 
-With the HID port in use, USB 5 V and the power module's output are both on the 5 V rail. Most
-boards have a diode in the USB path; check for a diode drop between the USB connector's VBUS and
-the `5V` pin. If there is none, fit an SS34 in series with the module's `+` output.
+The ESP32 board is a YD-ESP32-S3 layout. Its headers, in physical order:
+
+```
+left   3V3  3V3  RST  4  5  6  7  15  16  17  18  8  3  46  9  10  11  12  13  14  5Vin  GND
+right  GND  TX  RX  1  2  42  41  40  39  38  37  36  35  0  45  48  47  21  20  19  GND  GND
+```
+
+`5Vin` reaches the board's 5 V rail through diode D26, so the power module's output and USB
+power cannot back-feed each other and no series diode is needed.
 
 ## Build order
 
