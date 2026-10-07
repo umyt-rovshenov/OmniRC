@@ -19,3 +19,10 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local secrets. Never commit these; .env.example is the template to copy.
+.env
+.env.local
+.env.*.local
+env.local
+env.local.*
