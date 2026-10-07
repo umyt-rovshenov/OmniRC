@@ -114,12 +114,17 @@ The module's `SDA` pad is SPI MOSI and its `SCL` pad is SPI clock. There is no M
 | `SDA` | GPIO38 |
 | `SCL` | GPIO39 |
 | `ITA` | GPIO40 |
-| `RESET` | **3.3 V — see pre-flight check 3** |
+| `RESET` | Nothing. The module carries a 10 k pull-up to VCC |
 | `A0`, `A1`, `A2` | Ground (I2C address 0x20) |
 | `ITB`, `NC/SO`, `NC/CS` | Leave unconnected |
 
 All sixteen I/O pins use the chip's internal pull-ups, so every button and switch simply
 connects its pin to ground. No external resistors are needed.
+
+The HW-839 module already carries everything the chip needs around it: 10 k pull-ups on `SDA`
+and `SCL`, a 10 k pull-up on `RESET` so the chip is never held in reset, 10 k pull-downs on
+`A0`–`A2` that fix the address at 0x20, and a 1 uF decoupling capacitor. Nothing external has to
+be added for the expander to answer on the bus.
 
 | Expander pin | Control |
 |---|---|
@@ -272,22 +277,7 @@ If the ESP32 module is a WROOM-1**U**, it has no on-board antenna and the IPEX c
 only one. Transmitting without an antenna attached can damage the radio. Fit both antennas, the
 IPEX one on the ESP32 and the SMA one on the nRF24, before powering up.
 
-### 3. Wire MCP23017 RESET to 3.3 V
-
-`RESET` is active low. If the module carries no pull-up, the chip sits in reset and never
-answers on the bus, which looks exactly like a wiring fault and costs an evening to find.
-
-Do not bother measuring for a pull-up: a continuity test cannot see one, since a 10 k resistor
-does not read as a short. Just run a jumper from `RESET` to 3.3 V. It is harmless if a pull-up
-is already present and it removes the question entirely.
-
-### 4. I2C pull-ups
-
-Measure resistance from `SDA` to `VCC` and from `SCL` to `VCC` on the expander module. If it
-reads open, add a 4.7 k resistor from each line to 3.3 V. The ESP32's internal pull-ups are weak
-and marginal at 400 kHz.
-
-### 5. USB back-feed
+### 3. USB back-feed
 
 With the HID port in use, USB 5 V and the power module's output are both on the 5 V rail. Most
 boards have a diode in the USB path; check for a diode drop between the USB connector's VBUS and
