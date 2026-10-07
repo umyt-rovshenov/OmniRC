@@ -36,16 +36,39 @@ reserved for the USB HID gamepad transport and goes to the panel.
 
 **Do not use GPIO26–37.** They carry the flash and the octal PSRAM.
 
-### Power module (charge + boost, 5 V / 2 A)
+### Power module, LX-LCBST
 
 | Pad | Connect to |
 |---|---|
 | `Type-C` | Charger input |
-| `B+` | Battery pack positive |
-| `B-` | Battery pack negative |
-| `+` | 5 V rail, through the power switch |
-| `-` | Ground rail |
+| `IN+` / `IN-` | Alternative charger input, instead of the Type-C socket. Use one or the other, not both |
+| `B+` / `B-` | Battery pack positive and negative |
+| `VO+` / `VO-` | 5 V output. `VO+` goes through the power switch to the 5 V rail, `VO-` to ground |
 | trimmer | **Output voltage adjustment — see pre-flight check 1** |
+
+The board exposes two `VO+`/`VO-` pairs. They are the same net, wired in parallel, so either
+pair can be used.
+
+The module charges linearly, which means the difference between the 5 V input and the cell
+voltage is dissipated as heat on an 18 x 23.6 mm board. It getting warm during a charge is
+expected behaviour, and the chip carries over-temperature protection.
+
+Charge current is set by one 0603 resistor, following `R (kilohms) = 1200 / I (mA)`:
+
+| Resistor | Charge current |
+|---|---|
+| 30 k | 50 mA |
+| 5 k | 250 mA |
+| 2 k | 580 mA |
+| 1.2 k | 1000 mA |
+
+The manufacturer recommends 0.37 C, which for the 4000 mAh pack is about 1.5 A. The module's
+1 A maximum is below that, so the stock resistor needs no change and the pack charges in roughly
+five hours.
+
+The module provides soft start, reverse battery protection and over-temperature protection. It
+does **not** provide over-discharge protection, which is why the firmware enforces its own
+cut-off.
 
 ### nRF24 adapter board
 
@@ -231,16 +254,15 @@ end pins to the 5 V rail, so one direction is on and the other two positions are
 
 ### 1. Set the output to 5.0 V before connecting anything
 
-The power module's output voltage is set by a trimmer potentiometer and the same board can
-produce 9 V. **9 V on the 5 V rail destroys the ESP32 board, the display and the expander at
-once.**
+The power module's output voltage is set by a trimmer potentiometer, and its adjustment range is
+**4.2 V to 28 V**. Anything above 5 V on this rail destroys the ESP32 board, the display and the
+expander at once.
 
 1. Connect the battery pack to `B+` / `B-`, with nothing on the output.
 2. Measure between `+` and `-` with a multimeter.
 3. Turn the trimmer until it reads 5.00 V, slowly; these trimmers are coarse.
 4. Switch the pack off and on and confirm it still reads 5.00 V.
-5. Mark the trimmer position, and once it is set, seal it with a drop of nail polish or hot glue
-   so it cannot be knocked out of adjustment inside the enclosure.
+5. Once it reads 5.00 V, seal the trimmer so it cannot be knocked out of adjustment.
 
 Only after it reads 5.00 V may anything else be connected.
 
@@ -271,23 +293,9 @@ With the HID port in use, USB 5 V and the power module's output are both on the 
 boards have a diode in the USB path; check for a diode drop between the USB connector's VBUS and
 the `5V` pin. If there is none, fit an SS34 in series with the module's `+` output.
 
-## Connectors on the panel
+## Build order
 
-No panel mount connectors or extension cables are needed. Position the boards so their own
-connectors reach the outside:
-
-| Cutout | Exposes |
-|---|---|
-| ~6.5 mm round hole | The nRF24 module's SMA connector, so the antenna screws on from outside |
-| Rectangular, at the power module | Its Type-C charging socket |
-| Rectangular, at the ESP32 board | Both of its USB-C ports, so firmware can be flashed without opening the case |
-
-A 2-pin Type-C socket carries power only and cannot be used for the HID port, which needs the
-D+ and D- data lines.
-
-## Assembly order
-
-Build it in stages and test after each one. Finding a mistake with three wires connected is a
+Build in stages and test after each one. Finding a mistake with three wires connected is a
 different experience from finding it with forty.
 
 1. Set the power module output to 5.00 V and seal the trimmer. Verify it under load with a
@@ -300,4 +308,3 @@ different experience from finding it with forty.
 6. Add the remaining buttons, the switches and both thumbsticks.
 7. Add the nRF24 adapter with its capacitors, and the antennas.
 8. Add the buzzer and the battery divider.
-9. Only then cut the enclosure.

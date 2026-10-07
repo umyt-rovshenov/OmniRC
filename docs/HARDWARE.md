@@ -110,9 +110,12 @@ nRF24's 120 mA transmit peak on top of that is more than the board's own regulat
 and an unstable supply on an nRF24 shows up as random link dropouts. The adapter board is fed
 from 5 V, because its AMS1117 cannot regulate from a cell.
 
-**The power switch is on the module's 5 V output, not on the battery.** The pack stays connected
-to the charger, so the transmitter charges whether it is on or off. That switch carries the full
-system current and must be rated for at least 2 A.
+**The power switch is on the module's `VO+` output, not on the battery.** The pack stays
+connected to the charger, so the transmitter charges whether it is on or off. That switch carries
+the full system current and must be rated for at least 2 A.
+
+**Charging is linear and limited to 1 A**, which is 0.25 C for this pack and gentler than the
+0.37 C the module's maker recommends. The stock current setting needs no change.
 
 ### Budget
 
@@ -126,20 +129,10 @@ Based on 4000 mAh at 3.7 V and roughly 90% boost efficiency.
 
 ### Battery protection
 
-Protection is enforced in firmware regardless of what the pack or the module provide: warn at
-3.5 V, force a clean shutdown at 3.3 V. The pack is measured through a divider on `B+`, which
-stays live even when the transmitter is switched off.
+The module provides soft start, reverse battery protection and over-temperature protection, but
+**no over-discharge protection**. Nothing outside the firmware will stop the boost converter from
+pulling the pack down past the point where the cells are damaged.
 
-## Enclosure
-
-4 mm ABS cannot be bent cleanly, so the case is a layered stack: a base plate, spacer frames and
-a front panel.
-
-Bolt the stack together with M3 screws passing through every layer into a nut on the far side,
-through 3.2 mm clearance holes. That is stronger than threading the plastic, survives being
-opened repeatedly, and needs no heat-set inserts.
-
-Antennas go in opposite corners, ideally perpendicular to one another. The single-active-radio
-rule already prevents the transmitters from fighting, but physical separation still improves
-receive sensitivity. Keep the radio and its coaxial lead away from the display's SPI lines and
-from the boost converter's inductor.
+So the firmware is the only protection there is: warn at 3.5 V, force a clean shutdown at 3.3 V.
+The pack is measured through a divider on `B+`, which stays live even when the transmitter is
+switched off.

@@ -83,9 +83,12 @@ Bumping the pinned version and reformatting the tree must happen in the same com
    ones on a control link.
 2. Exactly one transport may be active at a time. Switching profiles fully shuts down the
    previous transport's stack rather than leaving it idle.
-3. The firmware must never let total current draw fall below 80 mA while powered on. The power
-   module cuts its output below 50 mA, so a deeper idle state would look like a random shutdown.
-4. Battery protection is enforced in firmware: warn at 3.5 V, force a clean shutdown at 3.3 V.
+3. Battery protection lives in the firmware and nowhere else. The power module provides soft
+   start, reverse battery protection and over-temperature protection, but no over-discharge
+   cut-off, so nothing else will stop the boost converter from pulling the cells below their
+   safe floor. Warn at 3.5 V, force a clean shutdown at 3.3 V.
+4. Settings are written to NVS when they change, not on shutdown. The transmitter is switched
+   off mechanically, so there is no shutdown hook to rely on.
 5. Every change to the wire format bumps `kProtocolVersion`. Receivers reject frames from a
    version they do not understand.
 
